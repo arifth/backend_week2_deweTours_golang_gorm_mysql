@@ -84,7 +84,7 @@ func (h *handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// data from patternsubmit to pattern entitydb user
 	user := models.User{
-		Name:     request.Name,
+		FullName: request.Name,
 		Email:    request.Email,
 		Password: request.Password,
 	}
@@ -135,7 +135,7 @@ func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
 
 	if request.Name != "" {
-		user.Name = request.Name
+		user.FullName = request.Name
 	}
 
 	if request.Email != "" {
@@ -191,7 +191,7 @@ func (h *handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 func convertResponse(u models.User) usersdto.UserResponse {
 	return usersdto.UserResponse{
 		ID:       u.ID,
-		Name:     u.Name,
+		Name:     u.FullName,
 		Email:    u.Email,
 		Password: u.Password,
 	}

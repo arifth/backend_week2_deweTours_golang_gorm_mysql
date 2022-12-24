@@ -53,14 +53,14 @@ func (r *repository) GetUser(ID int) (models.User, error) {
 }
 
 func (r *repository) CreateUser(user models.User) (models.User, error) {
-	err := r.db.Exec("INSERT INTO users(name,email,password,Created_at,Updated_at) VALUES(?,?,?,?,?)", user.Name, user.Email, user.Password, time.Now(), time.Now()).Error
+	err := r.db.Exec("INSERT INTO users(name,email,password,Created_at,Updated_at) VALUES(?,?,?,?,?)", user.FullName, user.Email, user.Password, time.Now(), time.Now()).Error
 
 	return user, err
 
 }
 
 func (r *repository) UpdateUser(user models.User, ID int) (models.User, error) {
-	err := r.db.Raw("UPDATE users SET name=?, email=?, password=? WHERE id=?", user.Name, user.Email, user.Password, ID).Scan(&user).Error
+	err := r.db.Raw("UPDATE users SET name=?, email=?, password=? WHERE id=?", user.FullName, user.Email, user.Password, ID).Scan(&user).Error
 
 	return user, err
 }
