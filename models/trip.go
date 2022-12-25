@@ -8,7 +8,7 @@ type Trip struct {
 	gorm.Model
 	Title          string  `json:"title"`
 	CountryId      int     `json:"country_id"`
-	Country        Country `json:"country"`
+	Country        Country `json:"country" gorm:"constraint:OnUpdate:CASCADE"`
 	Accomodation   string  `json:"accomodation"`
 	Transportation string  `json:"transportation"`
 	Eat            string  `json:"eat"`
