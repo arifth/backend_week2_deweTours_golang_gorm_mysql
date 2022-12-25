@@ -18,6 +18,5 @@ func TripRoutes(r *mux.Router) {
 	r.HandleFunc("/trip/{id}", h.FindTrip).Methods("GET")
 	r.HandleFunc("/trip", middleware.Auth(middleware.UploadFile(h.CreateTrip))).Methods("POST")
 	r.HandleFunc("/trip/{id}", middleware.Auth(middleware.UploadFile(h.UpdateTrip))).Methods("PATCH")
-	// BUGS: error merah
-	r.HandleFunc("/trip/{id}", middleware.Auth(h.CreateTrip)).Methods("DELETE")
+	r.HandleFunc("/trip/{id}", middleware.Auth(h.DeleteTrip)).Methods("DELETE")
 }
