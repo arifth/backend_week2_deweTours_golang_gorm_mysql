@@ -47,16 +47,9 @@ func (r *repository) CreateTrans(trans models.Transaction) (models.Transaction, 
 
 func (r *repository) UpdateTrans(trans models.Transaction, id int) (models.Transaction, error) {
 
-	err := r.db.Debug().Preload("Country").Save(&trans).Error
+	// err := r.db.Debug().Model(&trans).Updates(trans).Error
 
-	// err := r.db.Debug().Raw(`"UPDATE trips SET title=?, country_id=?, accomodation=?,transportation=?, eat=?, day=?, night=?, dateTrip=?, price=?, quota=?, description=?, image=? WHERE id=?"`, trip.Title, trip.Country, trip.Accomodation, trip.Transportation, trip.Eat, trip.Day, trip.Night, trip.DateTrip, trip.Price, trip.Quota, trip.Description, trip.Image, id).Scan(&trip).Error
-	// err := r.db.Debug().Raw("UPDATE trips SET title=?, accomodation=?,transportation=?, eat=?, day=?, night=?, date_trip=?, price=?, quota=?, description=?, image=? WHERE id=?", trip.Title, trip.Accomodation, trip.Transportation, trip.Eat, trip.Day, trip.Night, trip.DateTrip, trip.Price, trip.Quota, trip.Description, trip.Image, id).Scan(&trip).Error
+	err := r.db.Debug().Raw("UPDATE transactions SET counter_qty=?, total=?,status=?, attachment=?, trip_id=? WHERE id=?", trans.CounterQty, trans.Total, trans.Status, trans.Attachment, trans.TripId, id).Scan(&trans).Error
+
 	return trans, err
 }
-
-// func (r *repository) DeleteTrip(trip models.Trip, ID int) (models.Trip, error) {
-
-// 	// err := r.db.Preload("Country").Delete(&trip).Error
-// 	err := r.db.Raw("DELETE FROM trips WHERE id=?", ID).Scan(&trip).Error
-// 	return trip, err
-// }

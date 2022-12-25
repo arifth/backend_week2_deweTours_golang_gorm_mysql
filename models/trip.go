@@ -24,8 +24,8 @@ type Trip struct {
 	Country        CountryResponse `json:"country"`
 	Accomodation   string          `json:"accomodation" gorm:"type : varchar (255)"`
 	Transportation string          `json:"transportation" gorm:"type : varchar (255)"`
-	Eat            string          `json:"eat" gorm:"type : varchar (255)"`
-	Day            int             `json:"day" gorm:"type : varchar (255)"`
+	Eat            string          `json:"eat" `
+	Day            int             `json:"day" `
 	Night          int             `json:"night" gorm:"type : varchar (255)"`
 	DateTrip       string          `json:"date_trip" gorm:"type : varchar (255)"`
 	Price          int             `json:"price" gorm:"type : int"`

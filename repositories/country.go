@@ -49,7 +49,8 @@ func (r *repository) CreateCountry(country models.Country) (models.Country, erro
 func (r *repository) UpdateCountry(country models.Country, id int) (models.Country, error) {
 
 	// NOTES: sementara untuk supy tidak error
-	err := r.db.Save(&country).Error
+	// err := r.db.Save(&country).Error
+	err := r.db.Raw("UPDATE countries SET name=? WHERE id=?", country.Name, id).Scan(&country).Error
 
 	// err := r.db.Debug().Raw(`"UPDATE trips SET title=?, country_id=?, accomodation=?,transportation=?, eat=?, day=?, night=?, dateTrip=?, price=?, quota=?, description=?, image=? WHERE id=?"`, trip.Title, trip.Country, trip.Accomodation, trip.Transportation, trip.Eat, trip.Day, trip.Night, trip.DateTrip, trip.Price, trip.Quota, trip.Description, trip.Image, id).Scan(&trip).Error
 	// err := r.db.Debug().Raw("UPDATE trips SET title=?, accomodation=?,transportation=?, eat=?, day=?, night=?, date_trip=?, price=?, quota=?, description=?, image=? WHERE id=?", trip.Title, trip.Accomodation, trip.Transportation, trip.Eat, trip.Day, trip.Night, trip.DateTrip, trip.Price, trip.Quota, trip.Description, trip.Image, id).Scan(&trip).Error

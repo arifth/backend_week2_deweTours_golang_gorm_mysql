@@ -161,7 +161,7 @@ func (h *Triphandler) CreateTrip(w http.ResponseWriter, r *http.Request) {
 // // COMMENT: able to insert Name ,but Email and password isn't included
 // // solved , caused by typo in dto.SuccessResult
 
-// BUG: create new value in database,instead updating it
+// FIXED: create new value in database,instead updating it
 func (h *Triphandler) UpdateTrip(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -194,14 +194,7 @@ func (h *Triphandler) UpdateTrip(w http.ResponseWriter, r *http.Request) {
 		Image:          filename,
 	}
 
-	// if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
-	// 	json.NewEncoder(w).Encode(response)
-	// 	return
-	// }
-
-	// validate request against struct form created
+	// NOTES: lakukan pengecekan isian form dengan if
 
 	// fmt.Println("baris ke 203 trip handler ", request)
 	validation := validator.New()
@@ -212,23 +205,6 @@ func (h *Triphandler) UpdateTrip(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(response)
 		return
 	}
-
-	// countryId := strconv.Atoi()
-
-	// trip := models.Trip{
-	// 	Title:          request.Title,
-	// 	CountryId:      request.Country,
-	// 	Accomodation:   request.Transportation,
-	// 	Transportation: request.Transportation,
-	// 	Eat:            request.Eat,
-	// 	Day:            request.Day,
-	// 	Night:          request.Night,
-	// 	DateTrip:       request.DateTrip,
-	// 	Price:          request.Price,
-	// 	Quota:          request.Quota,
-	// 	Description:    request.Description,
-	// 	Image:          filename,
-	// }
 
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 
@@ -317,81 +293,5 @@ func (h *Triphandler) DeleteTrip(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: data}
 	json.NewEncoder(w).Encode(response)
-
-	// w.Header().Set("Content-Type", "application/json")
-
-	// dataContext := r.Context().Value("dataFile")
-
-	// // assign nama file ke variable filename
-	// filename := dataContext.(string)
-
-	// // NOTE: face error caused by key value in postman using whitespace after it , DONT DO THAT !!
-
-	// // get data country convrt ke int
-	// dataCountry, _ := strconv.Atoi(r.FormValue("country"))
-	// dataNight, _ := strconv.Atoi(r.FormValue("night"))
-	// dataDay, _ := strconv.Atoi(r.FormValue("day"))
-	// dataPrice, _ := strconv.Atoi(r.FormValue("price"))
-	// dataQuota, _ := strconv.Atoi(r.FormValue("quota"))
-
-	// request := tripdto.CreateTripRequest{
-	// 	Title:          r.FormValue("title"),
-	// 	Country:        dataCountry,
-	// 	Accomodation:   r.FormValue("accomodation"),
-	// 	Transportation: r.FormValue("transportation"),
-	// 	Eat:            r.FormValue("eat"),
-	// 	Day:            dataDay,
-	// 	Night:          dataNight,
-	// 	DateTrip:       r.FormValue("date_trip"),
-	// 	Price:          dataPrice,
-	// 	Quota:          dataQuota,
-	// 	Description:    r.FormValue("description"),
-	// 	// Image:          filename,
-	// }
-
-	// // validate request against struct form created
-	// validation := validator.New()
-	// err := validation.Struct(request)
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
-	// 	json.NewEncoder(w).Encode(response)
-	// 	return
-	// }
-
-	// // countryId := strconv.Atoi()
-
-	// trip := models.Trip{
-	// 	Title:          request.Title,
-	// 	CountryId:      request.Country,
-	// 	Accomodation:   request.Transportation,
-	// 	Transportation: request.Transportation,
-	// 	Eat:            request.Eat,
-	// 	Day:            request.Day,
-	// 	Night:          request.Night,
-	// 	DateTrip:       request.DateTrip,
-	// 	Price:          request.Price,
-	// 	Quota:          request.Quota,
-	// 	Description:    request.Description,
-	// 	Image:          filename,
-	// }
-
-	// id, err := strconv.Atoi(mux.Vars(r)["id"])
-
-	// if err != nil {
-	// 	fmt.Println("param tidak ada ")
-	// 	fmt.Println(err)
-	// }
-
-	// data, err := h.TripRepository.DeleteTrip(trip, id)
-
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	json.NewEncoder(w).Encode(err.Error())
-
-	// }
-	// w.WriteHeader(http.StatusOK)
-	// response := dto.SuccessResult{Code: http.StatusOK, Data: data}
-	// json.NewEncoder(w).Encode(response)
 
 }

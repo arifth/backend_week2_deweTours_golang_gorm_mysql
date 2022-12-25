@@ -5,7 +5,6 @@ import (
 	"fmt"
 	dto "gorm-imp/dto/result"
 	transactiondto "gorm-imp/dto/transaction"
-	tripdto "gorm-imp/dto/trip"
 	"gorm-imp/models"
 	"gorm-imp/repositories"
 	"net/http"
@@ -155,26 +154,22 @@ func (h *Transactionhandler) UpdateTrans(w http.ResponseWriter, r *http.Request)
 	// NOTE: face error caused by key value in postman using whitespace after it , DONT DO THAT !!
 
 	// get data country convrt ke int
-	dataCountry, _ := strconv.Atoi(r.FormValue("country"))
-	dataNight, _ := strconv.Atoi(r.FormValue("night"))
-	dataDay, _ := strconv.Atoi(r.FormValue("day"))
-	dataPrice, _ := strconv.Atoi(r.FormValue("price"))
-	dataQuota, _ := strconv.Atoi(r.FormValue("quota"))
+	dataQty, _ := strconv.Atoi(r.FormValue("counter_qty"))
+	dataTotal, _ := strconv.Atoi(r.FormValue("total"))
+	dataTrip, _ := strconv.Atoi(r.FormValue("trip_id"))
+	// dataPrice, _ := strconv.Atoi(r.FormValue("price"))
+	// dataQuota, _ := strconv.Atoi(r.FormValue("quota"))
 
-	request := tripdto.CreateTripRequest{
-		Title:          r.FormValue("title"),
-		Country:        dataCountry,
-		Accomodation:   r.FormValue("accomodation"),
-		Transportation: r.FormValue("transportation"),
-		Eat:            r.FormValue("eat"),
-		Day:            dataDay,
-		Night:          dataNight,
-		DateTrip:       r.FormValue("date_trip"),
-		Price:          dataPrice,
-		Quota:          dataQuota,
-		Description:    r.FormValue("description"),
-		Image:          filename,
+	request := transactiondto.CreateTransactionRequest{
+		CounterQty: dataQty,
+		Total:      dataTotal,
+		Status:     r.FormValue("status"),
+		Attachment: filename,
+		TripId:     dataTrip,
 	}
+
+	// fmt.Println(request)
+	// return
 
 	// if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 	// 	w.WriteHeader(http.StatusBadRequest)
@@ -197,22 +192,10 @@ func (h *Transactionhandler) UpdateTrans(w http.ResponseWriter, r *http.Request)
 
 	// countryId := strconv.Atoi()
 
-	// trip := models.Trip{
-	// 	Title:          request.Title,
-	// 	CountryId:      request.Country,
-	// 	Accomodation:   request.Transportation,
-	// 	Transportation: request.Transportation,
-	// 	Eat:            request.Eat,
-	// 	Day:            request.Day,
-	// 	Night:          request.Night,
-	// 	DateTrip:       request.DateTrip,
-	// 	Price:          request.Price,
-	// 	Quota:          request.Quota,
-	// 	Description:    request.Description,
-	// 	Image:          filename,
-	// }
-
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
+
+	// fmt.Println(id)
+	// return
 
 	// trip, _ = h.TripRepository.FindSingleTrip(id)
 
@@ -223,44 +206,27 @@ func (h *Transactionhandler) UpdateTrans(w http.ResponseWriter, r *http.Request)
 
 	// check all field for emptieness
 
-	// if request.Title != "" {
-	// 	trans.Title = request.Title
-	// }
-	// if request.Accomodation != "" {
-	// 	trans.Accomodation = request.Accomodation
-	// }
-	// if request.Country != 0 {
-	// 	trans.CountryId = request.Country
-	// }
-	// if request.Transportation != "" {
-	// 	trans.Transportation = request.Transportation
-	// }
-	// if request.Eat != "" {
-	// 	trans.Eat = request.Eat
-	// }
-	// if request.Day != 0 {
-	// 	trans.Day = request.Day
-	// }
-	// if request.Night != 0 {
-	// 	trans.Night = request.Night
-	// }
-	// if request.DateTrip != "" {
-	// 	trans.DateTrip = request.DateTrip
-	// }
-	// if request.Price != 0 {
-	// 	trans.Price = request.Price
-	// }
-	// if request.Quota != 0 {
-	// 	trans.Quota = request.Quota
-	// }
-	// if request.Description != "" {
-	// 	trans.Description = request.Description
-	// }
-	// if request.Image != "" {
-	// 	trans.Image = request.Image
-	// }
+	if request.Attachment != "" {
+		trans.Attachment = request.Attachment
+	}
+	if request.Status != "" {
+		trans.Status = request.Status
+	}
+
+	if request.CounterQty != 0 {
+		trans.CounterQty = request.CounterQty
+	}
+
+	if request.Total != 0 {
+		trans.Total = request.Total
+	}
+
+	if request.TripId != 0 {
+		trans.TripId = request.TripId
+	}
 
 	// fmt.Println(request)
+	// return
 
 	data, err := h.TransactionRepository.UpdateTrans(trans, id)
 
