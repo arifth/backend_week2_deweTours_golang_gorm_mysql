@@ -22,7 +22,7 @@ func (r *repository) FindTrans() ([]models.Transaction, error) {
 	var trans []models.Transaction
 	// err := r.db.Raw("SELECT * FROM trips").Scan(&trips).Error
 
-	err := r.db.Preload("Country").Find(&trans).Error
+	err := r.db.Debug().Preload("Trip").Preload("Trip.Country").Find(&trans).Error
 
 	return trans, err
 }
@@ -30,7 +30,7 @@ func (r *repository) FindTrans() ([]models.Transaction, error) {
 // this func begin handling database items with object relation models
 func (r *repository) FindTran(id int) (models.Transaction, error) {
 	var trans models.Transaction
-	err := r.db.Preload("Country").First(&trans, id).Error // Using Find method
+	err := r.db.Preload("Trip").Preload("Trip.Country").First(&trans, id).Error // Using Find method
 
 	// fmt.Println(trans)
 
@@ -39,7 +39,7 @@ func (r *repository) FindTran(id int) (models.Transaction, error) {
 
 func (r *repository) CreateTrans(trans models.Transaction) (models.Transaction, error) {
 	// err := r.db.Find("INSERT INTO trips(title,country,accomodation,transportation,eat,day,night,dateTrip,price,quota,description,image) ,
-	err := r.db.Debug().Preload("Country").Create(&trans).Error
+	err := r.db.Debug().Preload("Trip").Preload("Trip.Country").Create(&trans).Error
 
 	return trans, err
 

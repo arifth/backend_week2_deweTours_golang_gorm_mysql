@@ -126,7 +126,7 @@ func (h *Triphandler) CreateTrip(w http.ResponseWriter, r *http.Request) {
 
 	trip := models.Trip{
 		Title:          request.Title,
-		CountryId:      request.Country,
+		Country_id:     request.Country,
 		Accomodation:   request.Transportation,
 		Transportation: request.Transportation,
 		Eat:            request.Eat,
@@ -144,6 +144,7 @@ func (h *Triphandler) CreateTrip(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err.Error())
+		return
 
 	}
 	w.WriteHeader(http.StatusOK)
@@ -246,7 +247,7 @@ func (h *Triphandler) UpdateTrip(w http.ResponseWriter, r *http.Request) {
 		trip.Accomodation = request.Accomodation
 	}
 	if request.Country != 0 {
-		trip.CountryId = request.Country
+		trip.Country_id = request.Country
 	}
 	if request.Transportation != "" {
 		trip.Transportation = request.Transportation

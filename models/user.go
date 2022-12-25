@@ -21,3 +21,16 @@ type User struct {
 	Phone    int    `json:"phone"`
 	Address  string `json:"address"`
 }
+
+type UserResponse struct {
+	gorm.Model
+	FullName string `json:"full_name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Phone    int    `json:"phone"`
+	Address  string `json:"address"`
+}
+
+func (UserResponse) TableName() string {
+	return "Users"
+}
